@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>간단한 지도 표시하기</title>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=Vqke1aAbesyM3VondrvO&submodules=geocoder"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=Vqke1aAbesyM3VondrvO&submodules=drawing"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=Vqke1aAbesyM3VondrvO&submodules=visualization"></script>
+    <script src='http://code.jquery.com/jquery-1.11.0.min.js'></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=Vqke1aAbesyM3VondrvO&callback=iniMap"></script>
+    <!--<link rel="stylesheet" type="text/css" href="css/index.css">-->
+    <style type="text/css">
+        #map {
+        }
+
+        #data {
+        }
+
+            #data td {
+                padding-bottom: 0px;
+                padding-top: 0px;
+            }
+
+        .btnDetail {
+        }
+
+        body {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .head {
+            background-color: #F1C40F;
+            text-align: center;
+            height: 40px;
+            color: black;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        p {
+            padding: 0px;
+            margin: 0px;
+            font-size: 20px;
+            line-height: 40px;
+        }
+
+        .search {
+            text-align: center;
+            margin: 10px 0px;
+            background-color: black;
+            height: 40px;
+            padding: 0;
+            margin: 0;
+        }
+
+            .search .submit {
+                width: 82px;
+                color: black;
+                padding: 0px 20px;
+                background: #707070;
+            }
+
+        .te {
+            background-color: #5D5D5D;
+            border: 1px solid yellow;
+            height: 20px;
+            margin-top: 8px;
+            margin-left: 50px;
+        }
+
+        .search_text {
+            width: 200px;
+        }
+
+        .search .submit:hover {
+            color: #707070;
+            background-color: black;
+        }
+    </style>
+
+        <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=Vqke1aAbesyM3VondrvO&submodules=geocoder"></script>
+        <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=Vqke1aAbesyM3VondrvO&submodules=drawing"></script>
+        <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=Vqke1aAbesyM3VondrvO&submodules=visualization"></script>
+        <script src='http://code.jquery.com/jquery-1.11.0.min.js'></script>
+        <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=Vqke1aAbesyM3VondrvO&callback=iniMap"></script>
+        <script src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=822a1b03-e9a4-357d-92a3-38ba098a65f3"></script>
+
+</head>
+
+
+<body>
+    <div class="head">
+        <p>
+            <!--<i class="fa fa-bars fa-pull-left  fa-2x icon-black"> </i>-->주차할래
+        </p>
+    </div>
+    <div class="search">
+        <input class="te" type="text" id="" />
+        <input value="검색" type="button" onclick="" class="submit" />
+
+    </div>
+
+    <div id="map" style="width:100%;height:600px;"></div>
+
+    <div id="map_div" style="width:100%;height:300px;"></div>
+    <script>
+
+            //초기화 함수
+            function initTmap() {
+                centerLL = new Tmap.LonLat(currentY, currentX);
+                tmap = new Tmap.Map({
+                    div: 'map_div',
+                    width: '100%',
+                    height: '600px',
+                    transitionEffect: "resize",
+                    animation: true
+                });
+            };
+
+            function initmap() {
+                centerLL = new Tmap.LonLat(currentY, currentX);
+                tmap = new Tmap.Map({
+                    div: 'map',
+                    width: '0',
+                    height: '0',
+                    transitionEffect: "resize",
+                    animation: true
+                });
+            };
+            tmap = '';
+
+            //경로 정보 로드
+            function searchRoute(x, y) {
+                if(tmap != '')
+                    tmap.destroy();
+                initmap();
+                initTmap();
+                var routeFormat = new Tmap.Format.KML({ extractStyles: true, extractAttributes: true });
+                var startX = currentX;
+                var startY = currentY;
+                var endX = x;
+                var endY = y;
+                //좌표 주소 체계가 달라서 생기는 문제~~!! 사용 EPGS 받는게   WGS
+                //var startX = 14129105.461214;
+                //var startY = 4517042.1926406;
+                //var endX = 14136027.789587;
+                //var endY = 4517572.4745242;
+                var urlStr = "https://apis.skplanetx.com/tmap/routes?version=1&format=xml&reqCoordType=WGS84GEO";
+                urlStr += "&startX=" + startX;
+                urlStr += "&startY=" + startY;
+                urlStr += "&endX=" + endX;
+                urlStr += "&endY=" + endY;
+                urlStr += "&appKey=822a1b03-e9a4-357d-92a3-38ba098a65f3";
+                var prtcl = new Tmap.Protocol.HTTP({
+                    url: urlStr,
+                    format: routeFormat
+                });
+                var routeLayer = new Tmap.Layer.Vector("route", { protocol: prtcl, strategies: [new Tmap.Strategy.Fixed()] });
+                routeLayer.events.register("featuresadded", routeLayer, onDrawnFeatures);
+                console.log(urlStr)
+                tmap.addLayer(routeLayer);
+            }
+            //경로 그리기 후 해당영역으로 줌
+            function onDrawnFeatures(e) {
+                tmap.zoomToExtent(this.getDataExtent());
+            }
+
+    </script>
+    <script>
+        var currentX, currentY;
+        var onSuccess = function (position) {
+            currentX = position.coords.longitude;
+            currentY = position.coords.latitude;
+            $.get('http://172.20.10.2:3301/data').done(function (data) {
+                parkingData = data;
+                var mapOptions = {
+                    center: new naver.maps.LatLng(currentY, currentX),
+                    zoom: 10
+                };
+                var map = new naver.maps.Map('map', mapOptions);
+                for (i = 0; i < 100; i++) {
+                    var x, y;
+                    var temp_data = parkingData[i];
+                    naver.maps.Service.geocode({
+                        address: parkingData[i].addr
+                    }, function (status, response) {
+                        if (status !== naver.maps.Service.Status.OK) {
+                            console.log("주소변환 에러")
+                            return;
+                        }
+                        var result = response.result // 검색 결과의 컨테이너
+                        items = result.items; // 검색 결과의 배열
+                        x = items[0].point.x;
+                        y = items[0].point.y;
+                        var marker = new naver.maps.Marker({
+                            position: new naver.maps.LatLng(y, x),
+                            map: map,
+                        })
+                        naver.maps.Event.addListener(marker, "click", function (e) {
+                            if (infowindow.getMap()) {
+                                infowindow.close();
+                            } else {
+                                infowindow.open(map, marker);
+                            }
+                        });
+                        for (var i = 0; i < parkingData.length; i++) {
+                            if (result.userquery == parkingData[i].addr) {
+                                info = parkingData[i]
+                            }
+                        }
+                        var infowindow = new naver.maps.InfoWindow({
+                            content: "<form ><table id=data class='table'><tr><td>주차장 코드 : " + info.parking_code + "</td></tr><tr><td>주차장 : " + info.parking_name + "</td></tr><tr><td>주차장 번호 : " + info.tel +
+                        "</td></tr><tr><td>수용량 : " + info.capacity + "</td></tr><tr><td>현재 주차 : " + info.cur_parking + "</td></tr><tr><td>마감 시간 : " + info.end_time +
+                        "</td></tr><tr><td>요금 : " + info.rates + "</td></tr><tr><td>시간당 요금 : " + info.rates_time + "</td></tr><tr><td>추가 요금 : " + info.add_rate + "</td></tr><tr><td>추가 요금 시간 : " +
+                        info.add_rate_time + "</tr><tr><td>하루 최대 요금 : " + info.day_maximum + "</td></tr><tr><td><input type='button' class='btn btn-info' id='btnDetail' value='상세정보확인' style='float:right; margin-top:10px;' onclick='fn_detailView(" +
+                        info.parking_code+ ")'/></td></tr></form>"
+                            +"<input type='button' class='btn btn-info' id='btnDetail' value='길찾기' style='float:right; margin-top:10px;' onclick='searchRoute("+ x + ','+y+")'/>"
+                        })
+
+
+                    });
+                }
+            })
+        .fail(function () {
+            alert('연결이 비정상입니다')
+        })
+
+        };
+        function onError(error) {
+            alert('code: ' + error.code + '\n' +
+                  'message: ' + error.message + '\n');
+        }
+        function fn_detailView(parking_code) {
+
+            location.href = "detailDataPage.html?" + parking_code ;
+        }
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+        var parkingData;
+
+    </script>
+</body>
+</html>

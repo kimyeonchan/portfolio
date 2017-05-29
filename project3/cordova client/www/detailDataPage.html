@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <title>주차장 상세정보</title>
+
+ <style type="text/css">
+
+     form{
+         margin-top: 20px;
+     }
+     body{
+         padding-top: 2px;
+         padding-bottom:10px;
+         padding-left:10px;
+         padding-right:10px;
+
+         background-color: lightgrey;
+     }
+     #button{
+         float:right
+     }
+
+     tbody{
+         background-color: white;
+     }
+
+     .topDiv{
+         text-align: center;
+         color: black;
+         font-size: x-large;
+         background-color: gold;
+         height: 40px;
+         vertical-align:middle;
+     }
+     .topDiv p{
+         padding: 4px;
+         text-align:center;
+         vertical-align:middle;
+     }
+     .park{
+         height: 60px;
+         background-color: dimgrey;
+         text-align:left;
+         color: white;
+     }
+     .park #parkName{ font-size:22px; margin:0 12px 0;}
+     .park #parkAddress{ font-size:15px; margin:0 12px 0;}
+
+</style>
+</head>
+<!-- <script>
+  var onSuccess = function (position) {
+    $.get('http://172.20.10.2:3301/detaildata').done(function (data) {
+        parkingData = data;
+      }
+  }
+</script> -->
+<body>
+    <div class="topDiv">
+        <p>상세정보</p>
+    </div>
+    <div class="park">
+        <p id="parkName">주차장 명</p>
+        <p id="parkAddress">주소</p>
+    </div>
+    <div id="container">
+        <header id="header"></header>
+    <form class="formStyle">
+        <table class="table table-hover">
+            <thead style="">주차장 요금</thead>
+            <tbody>
+                <tr>
+                    <td><label class="col-sm-2 control-label">요금</label></td>
+                    <td class="col-sm-5">2000</td>
+                </tr>
+                <tr>
+                    <td><label for="ratesForHour" class="col-sm-2 control-label">시간당 요금</label></td>
+                    <td>10000</td>
+                </tr>
+                <tr>
+                    <td><label for="" class="col-sm-2 control-label">추가 요금</label></td>
+                    <td>20000</td>
+                </tr>
+                <tr>
+                    <td><label for="" class="col-sm-2 control-label">추가 요금 시간</label></td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td><label for="" class="col-sm-2 control-label">하루 최대 요금</label></td>
+                    <td>30000</td>
+                </tr>
+            </tbody>
+        </table>
+        </form>
+        </div>
+
+        <div>
+        <form>
+        <table class="table table-hover">
+            <thead>운영시간 및 이용현황</thead>
+            <tr>
+                <td><label for="" class="col-sm-2 control-label">현재 주차</label></td>
+                <td class="col-sm-5">33</td>
+            </tr>
+            <tr>
+                <td><label for="" class="col-sm-2 control-label">마감 시간</label></td>
+                <td>10:00</td>
+            </tr>
+        </table>
+        </form>
+        </div>
+    <div>
+            <form>
+            <table class="table table-hover">
+                <thead>주차장 정보</thead>
+                <tr>
+                    <td><label for="" class="col-sm-2 control-label">주차장 코드</label></td>
+                    <td class="col-sm-5">0733</td>
+                </tr>
+                <tr>
+                    <td><label for="" class="col-sm-2 control-label">주차장</label></td>
+                    <td>신길주차</td>
+                </tr>
+                <tr>
+                    <td><label for="" class="col-sm-2 control-label">주차장 번호</label></td>
+                    <td>334</td>
+                </tr>
+                <tr>
+                    <td><label for="" class="col-sm-2 control-label">수용량</label></td>
+                    <td>40</td>
+                </tr>
+            </table>
+            </form>
+            <div id="button">
+                <input class="btn btn-danger" id="btn_start" type="button" value="주차 시작하기" />
+                <input class="btn btn-default"id="btn_cancel" type="button" value="취소" />
+            </div>
+        </div>
+</body>
+</html>

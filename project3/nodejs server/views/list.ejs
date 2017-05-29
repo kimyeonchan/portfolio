@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <title><%= title %></title>
+	    <meta charset='utf-8'>
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+		<script src="/javascripts/jquery-1.11.2.min.js"></script>
+		<script>
+		
+		
+		</script>
+	</head>
+	
+	<body>
+		<h1><%= title %></h1>
+		
+		<a href="/joinForm">회원가입</a>
+		<br>
+		<br>
+		
+		<table width="400" border="1">
+			<tr>
+				<th>아이디</th>
+				<th>비밀번호</th>
+				<th>이름</th>
+				<th>전화번호</th>
+				<th>이메일</th>
+			</tr>
+
+			<%
+				for(var i=0; i<rows.length; i++)
+				{
+					var item = rows[i];
+			%>
+
+			<tr>
+				<td><%= item.user_id %></td>
+				<td><%= item.user_password %></td>
+				<td><%= item.user_name %></td>
+				<td><%= item.user_tel %></td>
+				<td><%= item.user_email %></td>
+			</tr>
+			
+			<%
+				}
+			%>
+		</table>
+		
+	</body>
+</html>
